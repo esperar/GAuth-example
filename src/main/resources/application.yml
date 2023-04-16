@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/gauthfeign?serverTimezone=Asia/Seoul}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Esperer123!}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+  jpa:
+    database-platform: ${DB_PLATFORM:org.hibernate.dialect.MySQL5InnoDBDialect}
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+jwt:
+  accessSecret: ${JWT_ACCESS_SECRET:qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm}
+  refreshSecret: ${JWT_REFRESH_SECRET:qwertyuiopasdfghjklmnbvcxzqwertyuiopasdfghjklmnbvcxz}
+  time:
+    accessExp: ${JWT_ACCESS_EXP:1000000}
+    refreshExp: ${JWT_REFRESH_EXP:1000000}
+
+auth:
+  gauth:
+    base-url: ${GOOGLE_BASE_URL}
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
+    redirect-uri: ${GOOGLE_REDIRECT_URI}
+
+server:
+  port: 8090
