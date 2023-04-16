@@ -33,6 +33,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.4")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
+	// annotation processor
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("com.github.GSM-MSG:GAuth-SDK-Java:v2.0.0")
 }
