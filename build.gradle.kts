@@ -14,6 +14,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+	maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -31,6 +32,14 @@ dependencies {
 	implementation("io.github.openfeign:feign-httpclient:11.9.1")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.4")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+
+	// annotation processor
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	implementation("com.github.GSM-MSG:GAuth-SDK-Java:v2.0.0")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }
 
 tasks.withType<KotlinCompile> {
