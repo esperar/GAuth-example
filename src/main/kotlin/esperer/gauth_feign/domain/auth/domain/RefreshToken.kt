@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 data class RefreshToken(
     @Id
     val refreshToken: String,
-    val userId: Long,
+    val email: String,
     @TimeToLive(unit = TimeUnit.SECONDS)
     val expiredAt: Int
 )
