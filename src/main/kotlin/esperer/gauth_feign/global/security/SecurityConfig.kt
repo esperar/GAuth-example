@@ -1,0 +1,58 @@
+package esperer.gauth_feign.global.security
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import esperer.gauth_feign.global.filter.FilterConfig
+import esperer.gauth_feign.global.security.handler.CustomAuthenticationEntryPoint
+import esperer.gauth_feign.global.security.jwt.JwtParser
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.util.matcher.RequestMatcher
+import org.springframework.web.cors.CorsUtils
+
+@Configuration
+@EnableWebSecurity
+class SecurityConfig(
+    private val objectMapper: ObjectMapper,
+    private val jwtParser: JwtParser
+) {
+
+    @Bean
+    fun filterChain(http: HttpSecurity): SecurityFilterChain =
+        http
+            .cors().and()
+            .csrf().disable()
+            .formLogin().disable()
+            .httpBasic().disable()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+            .and()
+            .authorizeRequests()
+            .requestMatchers(RequestMatcher { request ->
+                CorsUtils.isPreFlightRequest(request)
+            }).permitAll()
+
+            .mvcMatchers("/api/v1/auth/**").permitAll()
+            .mvcMatchers("/google/**").permitAll()
+            .anyRequest().denyAll()
+
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(CustomAuthenticationEntryPoint(objectMapper))
+
+            .and()
+            .apply(FilterConfig(jwtParser, objectMapper))
+
+            .and()
+            .build()
+
+    @Bean
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+
+}
